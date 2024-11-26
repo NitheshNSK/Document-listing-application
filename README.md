@@ -37,7 +37,7 @@ A full-stack application for listing, viewing, adding, and deleting documents. T
 # Backend Setup
 1.	Clone the repository:
 ```bash
-git clone https://github.com/yourusername/document-listing-app.git
+git clone git@github.com:NitheshNSK/Document-listing-application.git
 cd document-listing-app/backend
 ```
 2.	Create a virtual environment and activate it:
