@@ -54,6 +54,7 @@ pip install -r requirements.txt
 python app/database.py
 python generate_mock_data.py
 ```
+### or
 4.	Run the database migrations:
 ```bash
 alembic upgrade head 
