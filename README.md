@@ -66,7 +66,7 @@ uvicorn app.main:app --reload
 The backend will be running on http://127.0.0.1:8000.
 
 
-### Frontend Setup
+# Frontend Setup
 
 1.	Navigate to the frontend directory:
 ```bash
