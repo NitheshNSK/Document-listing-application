@@ -1,0 +1,21 @@
+# Node.js
+node_modules/
+build/
+dist/
+*.log
+
+# Python
+*.pyc
+*.pyo
+__pycache__
+venv/
+env/
+*.db
+*.sqlite3
+*.log
+*.pid
+*.egg-info/
+backend/bin
+backend/lib
+backend/pyvenv.cfg
+backend/include
