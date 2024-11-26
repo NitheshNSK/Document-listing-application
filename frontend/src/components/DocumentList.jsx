@@ -26,6 +26,7 @@ import {
   Snackbar,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { enqueueSnackbar } from "notistack";
 
 const DocumentList = () => {
   const [documents, setDocuments] = useState([]);
@@ -47,8 +48,9 @@ const DocumentList = () => {
   }, [page, sortConfig]);
 
   const fetchDocuments = async () => {
-    setLoading(true);
+     setLoading(true);
     try {
+     
       const data = await getDocuments(search);
 
       // Apply sorting after fetching the data
@@ -80,16 +82,24 @@ const DocumentList = () => {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      setPage(0); // Reset to the first page when searching
-      setSearched(true);
-      let data = await getDocumentsByName(search);
-      setDocuments(data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
+   
+    if (search) {
+       setLoading(true);
+      try {
+        setPage(0); // Reset to the first page when searching
+        
+        let data = await getDocumentsByName(search);
+        if(data){
+          setSearched(true);
+          setDocuments(data);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    }else{
+      enqueueSnackbar("Search Field must not be Empty",{variant:"warning"})
     }
   };
 
@@ -116,9 +126,9 @@ const DocumentList = () => {
 
   // Handle adding a new document
   const handleAddDocument = async () => {
-    if(newDoc.name==""||newDoc.content==""){
-       setOpen(true);
-        return false; 
+    if (newDoc.name == "" || newDoc.content == "") {
+      setOpen(true);
+      return false;
     }
     await createDocument(newDoc);
     fetchDocuments(); // Refresh document list
@@ -133,13 +143,13 @@ const DocumentList = () => {
   const handleCloseModal = () => {
     setSelectedDoc(null);
   };
- const handleClose = (event, reason) => {
-   if (reason === "clickaway") {
-     return;
-   }
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
 
-   setOpen(false);
- };
+    setOpen(false);
+  };
   return (
     <div style={{ padding: "20px" }}>
       <h2>Document List</h2>
@@ -245,7 +255,7 @@ const DocumentList = () => {
                   </TableCell>
                 </TableRow>
               </TableHead>
-              {documents.length !== 0 ? (
+              {documents?.length !== 0 ? (
                 <>
                   <TableBody>
                     {documents
@@ -279,7 +289,8 @@ const DocumentList = () => {
                 </>
               ) : (
                 <>
-                <h1 >No Records Found</h1></>
+                  <h1>No Records Found</h1>
+                </>
               )}
             </Table>
           </TableContainer>
